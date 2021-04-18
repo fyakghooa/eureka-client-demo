@@ -28,7 +28,15 @@ public class TestServiceController {
 	public String getTest2Service(@PathVariable String message) {
 		String test2HomePage = eurekaServiceController.getServiceUrl(test2ServiceName);
 		test2HomePage = new StringBuilder(test2HomePage).append("/test2/").append(message).toString();
-		final String response = restTemplate.getForObject(test2HomePage, String.class);
+		String response = restTemplate.getForObject(test2HomePage, String.class);
+		return response;
+	}
+
+	@GetMapping(value = "/test2/ribbon/{message}")
+	public String getTest2RibbonService(@PathVariable String message) {
+		String url = new StringBuilder("http://").append("eureka-client-testService2").append("/test2/").append(message)
+				.toString();
+		String response = restTemplate.getForObject(url, String.class);
 		return response;
 	}
 
